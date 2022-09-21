@@ -70,6 +70,7 @@ async function run() {
       const result = await completedCollection.insertOne(completed);
       res.send(result);
     });
+    
     app.get("/completed", async (req, res) => {
       const completed = await completedCollection.find({}).toArray();
       res.send(completed);
