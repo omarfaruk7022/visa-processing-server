@@ -57,6 +57,12 @@ async function run() {
       );
       res.send(result);
     });
+   app.get("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const user = await userCollection.findOne({ email: email });
+      res.send(user);
+    
+   })
   } finally {
   }
 }
