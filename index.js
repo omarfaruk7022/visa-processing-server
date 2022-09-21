@@ -23,6 +23,9 @@ async function run() {
     const companyCollection = client
       .db("visa-processing")
       .collection("companies");
+    const completedCollection = client
+      .db("visa-processing")
+      .collection("completed");
 
     app.post("/users", async (req, res) => {
       const user = req.body;
@@ -57,12 +60,20 @@ async function run() {
       );
       res.send(result);
     });
-   app.get("/users/:email", async (req, res) => {
+    app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const user = await userCollection.findOne({ email: email });
       res.send(user);
-    
-   })
+    });
+    app.post("/completed", async (req, res) => {
+      const completed = req.body;
+      const result = await completedCollection.insertOne(completed);
+      res.send(result);
+    });
+    app.get("/completed", async (req, res) => {
+      const completed = await completedCollection.find({}).toArray();
+      res.send(completed);
+    })
   } finally {
   }
 }
