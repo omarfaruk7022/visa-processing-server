@@ -37,7 +37,7 @@ async function run() {
       const user = await userCollection.findOne({ email: email });
       res.send({ data: user });
     });
-    app.put("/companies", async (req, res) => {
+    app.post("/companies", async (req, res) => {
       const company = req.body;
       const result = await companyCollection.insertOne(company);
       res.send(result);
@@ -75,6 +75,39 @@ async function run() {
       const completed = await completedCollection.find({}).toArray();
       res.send(completed);
     })
+    app.put("/companies/:id", async (req, res) => {
+      const id = req.params.id;
+      const company = req.body;
+      const result = await companyCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: company }
+      );
+      res.send(result);
+    })
+    app.patch("/companies/:id", async (req, res) => {
+     const id = req.params.id;
+      const completed = req.body; 
+      const result = await completedCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: completed }
+      ); 
+      res.send(result);
+    });
+    app.patch("/completed/:id", async (req, res) => {
+      const id = req.params.id;
+      const completed = req.body;
+      const result = await completedCollection.updateOne(
+        { _id: ObjectId(id) },
+        { $set: completed }
+      );
+      res.send(result);
+    });
+    app.delete("/companies/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await companyCollection.deleteOne({ _id: ObjectId(id) });
+      res.send(result);
+    })
+    
   } finally {
   }
 }
