@@ -107,6 +107,11 @@ async function run() {
       const result = await companyCollection.deleteOne({ _id: ObjectId(id) });
       res.send(result);
     })
+    app.delete("/completed/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await completedCollection.deleteOne({ _id: ObjectId(id) });
+      res.send(result);
+    })
     
   } finally {
   }
